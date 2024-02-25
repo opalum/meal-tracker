@@ -25,6 +25,8 @@ services:
       POSTGRES_DB: tracker
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+    ports:
+      - "6432:5432"
     volumes:
       - dbdata:/var/lib/postgresql/data
 
