@@ -24,3 +24,11 @@ stop: ## Stop all containers, but retain network
 .PHONY: shell
 shell: ## Run a shell session on a container
 	${DOCKER_COMPOSE} exec app bash
+
+.PHONY: shell.db
+shell.db: ## Run a psql session on the local database
+	${DOCKER_COMPOSE} exec db psql -U postgres tracker
+
+.PHONY: shell.tinker
+shell.tinker: ## Run a Tinker session on a container
+	${DOCKER_COMPOSE} exec app php artisan tinker
