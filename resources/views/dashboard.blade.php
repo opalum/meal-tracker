@@ -20,8 +20,8 @@
                 <div class="card-header">Manage</div>
                 <div class="card-body">
                     <h5 class="card-title">Tickets</h5>
-                    <p class="card-text">Generate tickets.</p>
-                    <a href="{{ route('tickets.create') }}" class="btn btn-light">Go to Tickets</a>
+                    <p class="card-text">Gerarar tickets.</p>
+                    <a href="{{ route('tickets.create') }}" class="btn btn-light">Ir a Tickets</a>
                 </div>
             </div>
         </div>
