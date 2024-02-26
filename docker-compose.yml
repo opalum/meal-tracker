@@ -12,7 +12,16 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./:/var/www
+      - ./app:/var/www/app
+      - ./config:/var/www/config
+      - ./database:/var/www/database
+      - ./resources:/var/www/resources
+      - ./routes:/var/www/routes
+      - ./tests:/var/www/tests
+      - ./phpunit.xml:/var/www/phpunit.xml
+      - ./composer.json:/var/www/composer.json
+      - ./composer.lock:/var/www/composer.lock
+      - ./.env:/var/www/.env
     depends_on:
       - db
       - redis
