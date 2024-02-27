@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Meal;
 use App\Models\Ticket;
 use App\Models\User;
+
+use Carbon\Carbon;
+
 use Illuminate\Support\Facades\Log;
 
 use Illuminate\Http\Request;
@@ -27,6 +30,64 @@ class TicketController extends Controller
         }
 
         return view('tickets.index', compact('ticketsByMeal'));
+    }
+
+    public function showRequestForm()
+    {
+        $meals = Meal::all();
+        return view('user.tickets.assign', compact('meals'));
+    }
+
+    public function showAssignedTickets(Request $request)
+    {
+        $validFor = $request->input('valid_for');
+        $user = auth()->user();
+        $tickets = collect();
+
+        if ($validFor) {
+            $date = Carbon::createFromFormat('Y-m-d', $validFor);
+            $tickets = Ticket::where('valid_for', $date)
+                ->where('user_id', $user->id)
+                ->with(['meal', 'user'])
+                ->get();
+        }
+
+        return view('user.tickets.index', compact('tickets', 'validFor'));
+    }
+
+    public function handleRequest(Request $request)
+    {
+        $validFor = $request->input('valid_for');
+        $mealIds = $request->input('meals', []);
+        $user = auth()->user();
+        $date = Carbon::createFromFormat('Y-m-d', $validFor);
+
+        if ($date->isPast()) {
+            return back()->withErrors(['msg' => 'You cannot request tickets for past dates.']);
+        }
+
+        foreach ($mealIds as $mealId) {
+            $existingTicket = Ticket::where('valid_for', $validFor)
+                ->where('user_id', $user->id)
+                ->where('meal_id', $mealId)
+                ->first();
+
+            if ($existingTicket) {
+                continue;
+            }
+
+            $ticket = Ticket::where('valid_for', $validFor)
+                ->whereNull('user_id')
+                ->where('meal_id', $mealId)
+                ->first();
+
+            if ($ticket) {
+                $ticket->user_id = $user->id;
+                $ticket->save();
+            }
+        }
+
+        return redirect()->route('user.tickets')->with('success', 'Tickets requested successfully.');
     }
 
     public function create()

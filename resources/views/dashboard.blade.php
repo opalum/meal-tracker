@@ -36,8 +36,28 @@
             </div>
         </div>
         @endif
-
-        <!-- Other options can be added in a similar manner -->
+    </div>
+    <div class="row">
+        @if(Auth::user()->hasRole('Admin'))
+        <div class="col-md-4">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Mis Tickets</h5>
+                    <p class="card-text">Consultar mis tickets</p>
+                    <a href="{{ route('user.tickets') }}" class="btn btn-light">Ir a mis tickets</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Solicitar Tickets</h5>
+                    <p class="card-text">Solicitar tickets para la comida.</p>
+                    <a href="{{ route('user.tickets.show.assign') }}" class="btn btn-light">Solicitar tickets</a>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 @endsection
