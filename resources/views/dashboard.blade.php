@@ -2,11 +2,16 @@
 
 @section('content')
 <div class="container">
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            @foreach ($errors->all() as $error)
-                {{ $error }} <br />
-            @endforeach
+    @if(session('success'))
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            {{ session('success') }}
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            {{ session('error') }}
         </div>
     @endif
 
@@ -26,7 +31,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Tickets</h5>
                     <p class="card-text">Administrar tickets.</p>
-                    <a href="{{ route('tickets.create') }}" class="btn btn-light">Ir a Tickets</a>
+                    <a href="{{ route('tickets.index') }}" class="btn btn-light">Ir a Tickets</a>
                 </div>
             </div>
         </div>

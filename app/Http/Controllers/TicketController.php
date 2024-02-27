@@ -11,6 +11,24 @@ use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
+    public function index(Request $request)
+    {
+        $ticketsByMeal = [];
+
+        if ($request->has('valid_for')) {
+            $date = $request->input('valid_for');
+
+            $tickets = Ticket::with(['meal', 'user'])
+                ->whereDate('valid_for', $date)
+                ->get()
+                ->groupBy('meal.name');
+
+            $ticketsByMeal = $tickets;
+        }
+
+        return view('tickets.index', compact('ticketsByMeal'));
+    }
+
     public function create()
     {
         return view('tickets.create');
@@ -26,7 +44,7 @@ class TicketController extends Controller
 
         if (Ticket::where('valid_for', $request->valid_for)->exists()) {
             return redirect()->route('dashboard')
-                             ->with('error', 'Tickets para esta fecha ya existen.');
+                             ->with('error', 'Los tickets para esta fecha ya existen.');
         }
 
         $meals = Meal::all();
