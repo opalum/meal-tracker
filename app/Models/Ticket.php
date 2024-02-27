@@ -26,6 +26,11 @@ class Ticket extends Model
         return $this->belongsTo(Meal::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     /**
      * Generate a unique 5-character alphanumeric code.
      *

@@ -60,8 +60,9 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::find($id);
-        return view('users.edit', compact('user'));
+        $roles = Role::all();
+        $user  = User::find($id);
+        return view('users.edit', compact('roles', 'user'));
     }
 
     /**
@@ -83,7 +84,7 @@ class UserController extends Controller
 
         $request->validate($rules);
 
-        $data = $request->only(['identity', 'name', 'email', 'phone']);
+        $data = $request->only(['identity', 'name', 'email', 'phone', 'rank', 'role_id']);
 
         if ($request->filled('password')) {
             $data['password'] = bcrypt($request->password);
@@ -91,7 +92,7 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+        return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
     }
 
     /**
@@ -99,7 +100,8 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
+        $user = User::find($id);
         $user->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('users.index')->with('success', 'Usuario eliminado correctamente.');
     }
 }

@@ -3,32 +3,40 @@
 @section('content')
 <div class="container">
     <div class="row">
+        @if(session('success'))
+            <div class="alert alert-dismissible alert-success">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="col-md-12">
-            <h2>Users</h2>
-            <a href="{{ route('users.create') }}" class="btn btn-primary">Add User</a>
-            <table class="table">
+            <h2>Usuarios</h2>
+            <a href="{{ route('users.create') }}" class="btn btn-outline-primary float-end">Crear Usuario</a>
+            <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Identity</th>
-                        <th>Name</th>
+                        <th>Cédula</th>
+                        <th>Grado</th>
+                        <th>Nombres</th>
                         <th>Email</th>
-                        <th>Role</th>
-                        <th>Actions</th>
+                        <th>Rol</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($users as $user)
                         <tr>
                             <td>{{ $user->identity }}</td>
+                            <td>{{ $user->rank }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->role->name }}</td>
                             <td>
-                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-secondary">Edit</a>
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-outline-info btn-sm">Editar</a>
                                 <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline-block;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Eliminar</button>
                                 </form>
                             </td>
                         </tr>

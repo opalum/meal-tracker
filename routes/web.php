@@ -20,7 +20,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
         // Dashboard
         return view('dashboard');
-    });
+    })->name('dashboard');
     Route::resource('users', UserController::class);
     Route::get('tickets/create', [TicketController::class, 'create'])->name('tickets.create');
     Route::post('tickets/generate', [TicketController::class, 'generate'])->name('tickets.generate');

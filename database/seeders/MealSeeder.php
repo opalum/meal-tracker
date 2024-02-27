@@ -15,17 +15,17 @@ class MealSeeder extends Seeder
     {
         DB::table('meals')->insert([
             [
-                'name'       => 'Breakfast',
+                'name'       => 'Desayuno',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name'       => 'Lunch',
+                'name'       => 'Almuerzo',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name'       => 'Dinner',
+                'name'       => 'Merienda',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

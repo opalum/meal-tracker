@@ -18,7 +18,7 @@
             <label for="valid_for" class="form-label">Fecha</label>
             <input type="date" class="form-control" id="valid_for" name="valid_for" required>
         </div>
-        <button type="submit" class="btn btn-primary">Generar Tickets</button>
+        <button type="submit" class="btn btn-outline-primary">Generar Tickets</button>
     </form>
 </div>
 @endsection

@@ -15,7 +15,7 @@ up: ## Bring up all containers
 
 .PHONY: logs
 logs:
-	${DOCKER_COMPOSE} logs app
+	${DOCKER_COMPOSE} logs app --follow
 
 .PHONY: stop
 stop: ## Stop all containers, but retain network

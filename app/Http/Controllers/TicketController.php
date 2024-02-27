@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Meal;
 use App\Models\Ticket;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 use Illuminate\Http\Request;
 
@@ -20,8 +21,13 @@ class TicketController extends Controller
         $request->validate(['valid_for' => 'required|date']);
 
         $diners = User::whereHas('role', function ($query) {
-            $query->where('name', 'Diner');
+            $query->where('name', 'Comensal');
         })->get();
+
+        if (Ticket::where('valid_for', $request->valid_for)->exists()) {
+            return redirect()->route('dashboard')
+                             ->with('error', 'Tickets para esta fecha ya existen.');
+        }
 
         $meals = Meal::all();
 
@@ -35,6 +41,7 @@ class TicketController extends Controller
             }
         }
 
-        return back()->with('success', 'Tickets generated successfully.');
+        return redirect()->route('dashboard')
+                         ->with('success', 'Tickets generados exitosamente');
     }
 }
