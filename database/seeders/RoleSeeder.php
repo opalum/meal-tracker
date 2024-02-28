@@ -6,25 +6,25 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class MealSeeder extends Seeder
+class RoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $meals = [
-            'Desayuno',
-            'Almuerzo',
-            'Merienda',
+        $roles = [
+            'Comensal',
+            'Admin',
+            'Cocinero',
         ];
 
-        foreach ($meals as $meal) {
-            $existingMeal = DB::table('meals')->where('name', $meal)->first();
+        foreach ($roles as $role) {
+            $existingRole = DB::table('roles')->where('name', $role)->first();
 
-            if (!$existingMeal) {
-                DB::table('meals')->insert([
-                    'name'       => $meal,
+            if (!$existingRole) {
+                DB::table('roles')->insert([
+                    'name'       => $role,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
