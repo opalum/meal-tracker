@@ -33,6 +33,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/tickets/redeem', [TicketController::class, 'showRedeemForm'])->name('tickets.redeem.show');
     Route::post('/tickets/redeem', [TicketController::class, 'redeemTicket'])->name('tickets.redeem');
+
+    Route::get('/tickets/report', [TicketController::class, 'showReportForm'])->name('tickets.report.form');
+    Route::get('/tickets/report/generate', [TicketController::class, 'generateReport'])->name('tickets.report');
+
+    Route::get('/tickets/report/single-date', [TicketController::class, 'generateSingleDateReport'])->name('tickets.report.single_date');
+    Route::get('/tickets/report/date-range', [TicketController::class, 'generateDateRangeReport'])->name('tickets.report.date_range');
 });
 
 Route::get('login', [AuthController::class, 'show'])->name('login');
