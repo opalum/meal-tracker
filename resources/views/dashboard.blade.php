@@ -59,6 +59,19 @@
         </div>
         @endif
     </div>
+    <div class="row">
+        @if(Auth::user()->hasRole('Admin'))
+        <div class="col-md-4">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Canjear Tickets</h5>
+                    <p class="card-text">Validar y canjear Tickets</p>
+                    <a href="{{ route('tickets.redeem.show') }}" class="btn btn-light">Canjear tickets</a>
+                </div>
+            </div>
+        </div>
+    @endif
+    </div>
 </div>
 @endsection
 

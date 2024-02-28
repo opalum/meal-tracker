@@ -90,6 +90,34 @@ class TicketController extends Controller
         return redirect()->route('user.tickets')->with('success', 'Tickets requested successfully.');
     }
 
+    public function showRedeemForm()
+    {
+        return view('tickets.redeem');
+    }
+
+    public function redeemTicket(Request $request)
+    {
+        $code = $request->input('code');
+        $ticket = Ticket::where('code', $code)->first();
+
+        if (!$ticket) {
+            return back()->withErrors(['msg' => 'El ticket no fue encontrado.']);
+        }
+
+        if (!$ticket->user_id) {
+            return back()->withErrors(['msg' => 'Este ticket no está asignado a ningún usuario']);
+        }
+
+        if ($ticket->redeemed) {
+            return back()->withErrors(['msg' => 'Este ticket ya ha sido usado.']);
+        }
+
+        $ticket->redeemed = true;
+        $ticket->save();
+
+        return back()->with('success', 'El ticket ha sido procesado correctamente.');
+    }
+
     public function create()
     {
         return view('tickets.create');

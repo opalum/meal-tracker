@@ -2,11 +2,11 @@
 
 @section('content')
 <div class="container">
-    <h2>Request Tickets</h2>
+    <h2>Solicitar Tickets</h2>
     <form action="{{ route('user.tickets.assign') }}" method="POST">
         @csrf
         <div class="mb-3">
-            <label for="valid_for" class="form-label">Select Date</label>
+            <label for="valid_for" class="form-label">Seleccione Fecha</label>
             <input type="date" class="form-control" id="valid_for" name="valid_for" required>
         </div>
         @foreach($meals as $meal)
