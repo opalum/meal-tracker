@@ -113,6 +113,11 @@ class TicketController extends Controller
             return back()->withErrors(['msg' => 'Este ticket ya ha sido usado.']);
         }
 
+        $currentDate = now()->toDateString();
+        if ($ticket->valid_for != $currentDate) {
+            return back()->withErrors(['msg' => 'Este ticket no es válido para hoy.']);
+        }
+
         $ticket->redeemed = true;
         $ticket->save();
 

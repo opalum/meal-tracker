@@ -12,15 +12,18 @@
         <div class="col-md-12">
             <h2>Usuarios</h2>
             <a href="{{ route('users.create') }}" class="btn btn-outline-primary float-end">Crear Usuario</a>
+            <br />
+            <br />
+            <br />
             <table class="table table-hover">
-                <thead>
+                <thead class="table-dark">
                     <tr>
                         <th>Cédula</th>
                         <th>Grado</th>
                         <th>Nombres</th>
                         <th>Email</th>
                         <th>Rol</th>
-                        <th>Acciones</th>
+                        <th style="width: 220px;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,7 +34,7 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->role->name }}</td>
-                            <td>
+                            <td class="text-end">
                                 <a href="{{ route('users.edit', $user->id) }}" class="btn btn-outline-info btn-sm">Editar</a>
                                 <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline-block;">
                                     @csrf

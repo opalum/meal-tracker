@@ -310,6 +310,7 @@ class UserSeeder extends Seeder
             if (!$userExists) {
                 DB::table('users')->insert([
                     'identity'   => $user['identity'],
+                    'rank'       => isset($user['rank']) ? $user['rank'] : null,
                     'name'       => $user['name'],
                     'email'      => $user['identity'] . '@agrucomge.com',
                     'phone'      => '',
