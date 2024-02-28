@@ -32,10 +32,11 @@ class TicketController extends Controller
         return view('tickets.index', compact('ticketsByMeal'));
     }
 
-    public function showRequestForm()
+    public function showRequestForm(Request $request)
     {
+        $validFor = $request->input('valid_for');
         $meals = Meal::all();
-        return view('user.tickets.assign', compact('meals'));
+        return view('user.tickets.assign', compact('meals', 'validFor'));
     }
 
     public function showAssignedTickets(Request $request)
@@ -63,7 +64,7 @@ class TicketController extends Controller
         $date = Carbon::createFromFormat('Y-m-d', $validFor);
 
         if ($date->isPast()) {
-            return back()->withErrors(['msg' => 'You cannot request tickets for past dates.']);
+            return redirect()->route('user.tickets', ['valid_for' => $validFor])->with('error', 'No se pueden solicitar tickets para una fecha anterior.');
         }
 
         foreach ($mealIds as $mealId) {
@@ -87,7 +88,7 @@ class TicketController extends Controller
             }
         }
 
-        return redirect()->route('user.tickets')->with('success', 'Tickets requested successfully.');
+        return redirect()->route('user.tickets', ['valid_for' => $validFor])->with('success', 'Tickets solicitados exitosamente.');
     }
 
     public function showRedeemForm()

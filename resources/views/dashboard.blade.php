@@ -90,7 +90,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Mis Tickets</h5>
                     <p class="card-text">Consultar mis tickets</p>
-                    <a href="{{ route('user.tickets') }}" class="btn btn-light">Ir a mis tickets</a>
+                    <a href="{{ route('user.tickets', ['valid_for' => Carbon\Carbon::now()->format('Y-m-d')]) }}" class="btn btn-outline-light">Ir a mis tickets</a>
                 </div>
             </div>
         </div>
@@ -99,7 +99,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Solicitar Tickets</h5>
                     <p class="card-text">Solicitar tickets para la comida.</p>
-                    <a href="{{ route('user.tickets.show.assign') }}" class="btn btn-light">Solicitar tickets</a>
+                    <a href="{{ route('user.tickets.show.assign', ['valid_for' => \Carbon\Carbon::tomorrow()->format('Y-m-d')]) }}" class="btn btn-outline-light">Solicitar tickets</a>
                 </div>
             </div>
         </div>
@@ -108,7 +108,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Reportes</h5>
                     <p class="card-text">Reportes de tickets.</p>
-                    <a href="{{ route('user.tickets.select_monthly_report') }}" class="btn btn-light">Ir a reportes</a>
+                    <a href="{{ route('user.tickets.select_monthly_report') }}" class="btn btn-outline-light">Ir a reportes</a>
                 </div>
             </div>
         </div>

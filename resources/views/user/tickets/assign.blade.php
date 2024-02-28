@@ -7,7 +7,7 @@
         @csrf
         <div class="mb-3">
             <label for="valid_for" class="form-label">Seleccione Fecha</label>
-            <input type="date" class="form-control" id="valid_for" name="valid_for" required>
+            <input type="date" class="form-control" id="valid_for" name="valid_for" value="{{ $validFor ?? '' }}" required>
         </div>
         @foreach($meals as $meal)
             <div class="mb-3">
@@ -15,7 +15,7 @@
                 <label for="meal_{{ $meal->id }}">{{ $meal->name }}</label>
             </div>
         @endforeach
-        <button type="submit" class="btn btn-primary">Request Tickets</button>
+        <button type="submit" class="btn btn-primary">Solicitar</button>
     </form>
 </div>
 @endsection

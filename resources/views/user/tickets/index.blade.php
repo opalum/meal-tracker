@@ -3,10 +3,11 @@
 @section('content')
 <div class="container">
     <h2>Mis Tickets</h2>
+    <x-alert-message />
     <form action="{{ route('user.tickets') }}" method="GET">
         <div class="input-group mb-3">
-            <input type="date" class="form-control" id="valid_for" name="valid_for" value="{{ $validFor ?? '' }}">
-            <button type="submit" class="btn btn-primary">Search</button>
+            <input type="date" class="form-control" id="valid_for" name="valid_for" value="{{ $validFor ?? '' }}" required>
+            <button type="submit" class="btn btn-outline-primary">Buscar</button>
         </div>
     </form>
 
