@@ -39,6 +39,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/tickets/report/single-date', [TicketController::class, 'generateSingleDateReport'])->name('tickets.report.single_date');
     Route::get('/tickets/report/date-range', [TicketController::class, 'generateDateRangeReport'])->name('tickets.report.date_range');
+
+    Route::get('/user/tickets/select-monthly-report', function () {
+        return view('user.select_monthly_report');
+    })->name('user.tickets.select_monthly_report');
+    Route::get('/user/tickets/monthly-report', [TicketController::class, 'monthlyReportForUser'])->name('user.tickets.monthly_report');
 });
 
 Route::get('login', [AuthController::class, 'show'])->name('login');

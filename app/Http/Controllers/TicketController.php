@@ -204,6 +204,37 @@ class TicketController extends Controller
         return view('tickets.report_date_range', compact('reportData', 'startDate', 'endDate'));
     }
 
+    public function monthlyReportForUser(Request $request)
+    {
+        $user = auth()->user();
+        $selectedMonth = $request->input('month');
+        $selectedYear = $request->input('year');
+        $month = "$selectedYear-$selectedMonth"; // e.g., "2024-02"
+        $startDate = Carbon::createFromFormat('Y-m', $month)->startOfMonth();
+        $endDate = Carbon::createFromFormat('Y-m', $month)->endOfMonth();
+
+        $tickets = Ticket::where('user_id', $user->id)
+            ->whereBetween('valid_for', [$startDate, $endDate])
+            ->get();
+
+        // Prepare data for the summary
+        $summary = [
+            'total_requested' => $tickets->count(),
+            'total_redeemed' => $tickets->where('redeemed', true)->count(),
+        ];
+
+        // Prepare detailed ticket information
+        $detailedTickets = $tickets->map(function ($ticket) {
+            return [
+                'date' => $ticket->valid_for,
+                'meal' => $ticket->meal->name,
+                'redeemed' => $ticket->redeemed ? 'Si' : 'No',
+            ];
+        });
+
+        return view('user.monthly_report', compact('detailedTickets', 'summary', 'month'));
+    }
+
     public function create()
     {
         return view('tickets.create');

@@ -66,6 +66,16 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Reportes</h5>
+                    <p class="card-text">Reportes de tickets.</p>
+                    <a href="{{ route('user.tickets.select_monthly_report') }}" class="btn btn-light">Ir a reportes</a>
+                </div>
+            </div>
+        </div>
+
         @endif
     </div>
     <div class="row">
