@@ -46,6 +46,26 @@
                     @endforeach
                 </tbody>
             </table>
+
+            <div class="d-flex justify-content-center">
+                <div>
+                    <ul class="pagination">
+                        <li class="page-item {{ $users->onFirstPage() ? 'disabled' : '' }}">
+                            <a class="page-link" href="{{ $users->previousPageUrl() }}">&laquo;</a>
+                        </li>
+
+                        @foreach(range(1, $users->lastPage()) as $page)
+                            <li class="page-item {{ $users->currentPage() == $page ? 'active' : '' }}">
+                                <a class="page-link" href="{{ $users->url($page) }}">{{ $page }}</a>
+                            </li>
+                        @endforeach
+
+                        <li class="page-item {{ $users->hasMorePages() ? '' : 'disabled' }}">
+                            <a class="page-link" href="{{ $users->nextPageUrl() }}">&raquo;</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>
