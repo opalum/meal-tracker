@@ -57,9 +57,9 @@
         <div class="col-md-4">
             <div class="card text-white bg-dark mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">Users</h5>
+                    <h5 class="card-title">Usuarios</h5>
                     <p class="card-text">Crear, editar y eliminar usuarios.</p>
-                    <a href="{{ route('users.index') }}" class="btn btn-light">Ir a usuarios</a>
+                    <a href="{{ route('users.index') }}" class="btn btn-outline-light">Ir a usuarios</a>
                 </div>
             </div>
         </div>
@@ -68,7 +68,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Tickets</h5>
                     <p class="card-text">Administrar tickets.</p>
-                    <a href="{{ route('tickets.index') }}" class="btn btn-light">Ir a tickets</a>
+                    <a href="{{ route('tickets.index') }}" class="btn btn-outline-light">Ir a tickets</a>
                 </div>
             </div>
         </div>
@@ -77,7 +77,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Reportes</h5>
                     <p class="card-text">Reportes de tickets.</p>
-                    <a href="{{ route('tickets.report.form') }}" class="btn btn-light">Ir a reportes</a>
+                    <a href="{{ route('tickets.report.form') }}" class="btn btn-outline-light">Ir a reportes</a>
                 </div>
             </div>
         </div>
@@ -122,7 +122,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Canjear Tickets</h5>
                     <p class="card-text">Validar y canjear Tickets</p>
-                    <a href="{{ route('tickets.redeem.show') }}" class="btn btn-light">Canjear tickets</a>
+                    <a href="{{ route('tickets.redeem.show') }}" class="btn btn-outline-light">Canjear tickets</a>
                 </div>
             </div>
         </div>
