@@ -3,6 +3,34 @@
 @section('content')
 <div class="container">
     <h2>Solicitar Tickets</h2>
+
+    <div class="d-flex justify-content-center mb-4">
+        @php
+            $currentDate = \Carbon\Carbon::today()->subWeek();
+            $endDate     = \Carbon\Carbon::today()->addWeeks(2);
+            $today       = \Carbon\Carbon::today()->format('Y-m-d');
+        @endphp
+
+        @while($currentDate->lte($endDate))
+            @php
+                $dateFormatted = $currentDate->format('M j');
+                $dateKey       = $currentDate->format('Y-m-d');
+                $hasTickets    = in_array($dateKey, $datesWithTickets);
+                $color         = $dateKey === $today ? '#32CD32' : ($hasTickets ? 'black' : 'darkgray');
+            @endphp
+
+            <div class="p-2">
+                <span style="color: {{ $color }}; font-weight: {{ $hasTickets ? 'bold' : 'normal' }}">
+                    {{ $dateFormatted }}
+                </span>
+            </div>
+
+            @php
+                $currentDate->addDay();
+            @endphp
+        @endwhile
+    </div>
+
     <form action="{{ route('user.tickets.assign') }}" method="POST">
         @csrf
         <div class="mb-3">

@@ -124,9 +124,11 @@ class TicketController extends Controller
 
     public function showRequestForm(Request $request)
     {
-        $validFor = $request->input('valid_for');
-        $meals = Meal::all();
-        return view('user.tickets.assign', compact('meals', 'validFor'));
+        $validFor         = $request->input('valid_for');
+        $meals            = Meal::all();
+        $datesWithTickets = $this->datesWithTickets();
+
+        return view('user.tickets.assign', compact('meals', 'validFor', 'datesWithTickets'));
     }
 
     public function showAssignedTickets(Request $request)
@@ -328,6 +330,14 @@ class TicketController extends Controller
             ];
         });
 
-        return view('user.monthly_report', compact('detailedTickets', 'summary', 'month'));
+        // Summary detailed by meal.
+        $mealsSummary = $tickets->groupBy('meal.name')->map(function ($group, $mealName) {
+            return [
+                'total_requested' => $group->count(),
+                'total_redeemed' => $group->where('redeemed', true)->count(),
+            ];
+        });
+
+        return view('user.monthly_report', compact('detailedTickets', 'summary', 'month', 'mealsSummary'));
     }
 }

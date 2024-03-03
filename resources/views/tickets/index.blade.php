@@ -33,7 +33,6 @@
         @endwhile
     </div>
 
-
     <form action="{{ route('tickets.index') }}" method="GET">
         @csrf
         <div class="input-group mb-3">

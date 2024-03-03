@@ -10,6 +10,12 @@
     <p>Tickets Usuados: {{ $summary['total_redeemed'] }}</p>
 
     <br />
+    <h4>Resumen por Comida</h4>
+    @foreach ($mealsSummary as $mealName => $info)
+        <p>{{ $mealName }} - Solicitados: {{ $info['total_requested'] }}, Usados: {{ $info['total_redeemed'] }}</p>
+    @endforeach
+
+    <br />
     <h4>Detalles</h4>
     <table class="table table-hover">
         <thead>
