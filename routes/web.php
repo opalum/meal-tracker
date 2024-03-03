@@ -23,8 +23,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('users', UserController::class);
 
     Route::get('tickets', [TicketController::class, 'index'])->name('tickets.index');
-    Route::get('tickets/create', [TicketController::class, 'create'])->name('tickets.create');
-    Route::post('tickets/generate', [TicketController::class, 'generate'])->name('tickets.generate');
 
     Route::get('/user/tickets', [TicketController::class, 'showAssignedTickets'])->name('user.tickets');
     Route::get('/user/tickets/assign', [TicketController::class, 'showRequestForm'])->name('user.tickets.show.assign');

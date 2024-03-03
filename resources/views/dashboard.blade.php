@@ -68,7 +68,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Tickets</h5>
                     <p class="card-text">Administrar tickets.</p>
-                    <a href="{{ route('tickets.index') }}" class="btn btn-outline-light">Ir a tickets</a>
+                    <a href="{{ route('tickets.index', ['valid_for' => Carbon\Carbon::now()->format('Y-m-d'), 'action' => 'search']) }}" class="btn btn-outline-light">Ir a tickets</a>
                 </div>
             </div>
         </div>

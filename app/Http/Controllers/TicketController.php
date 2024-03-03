@@ -16,6 +16,96 @@ class TicketController extends Controller
 {
     public function index(Request $request)
     {
+        $validFor = $request->input('valid_for');
+        $ticketsByMeal = [];
+        $action = $request->input('action');
+
+        if ($action == 'search') {
+            $ticketsByMeal = $this->searchTickets($request);
+        } elseif ($action == 'generate') {
+            $ticketsByMeal = $this->generateTickets($request);
+        }
+
+        $datesWithTickets = $this->datesWithTickets();
+
+        return view('tickets.index', compact('ticketsByMeal', 'validFor', 'datesWithTickets'));
+    }
+
+    private function datesWithTickets()
+    {
+        $startDate = Carbon::today()->subWeek();
+        $endDate   = Carbon::today()->addWeeks(2);
+
+        return Ticket::whereBetween('valid_for', [$startDate->format('Y-m-d'), $endDate->format('Y-m-d')])
+                              ->select('valid_for')
+                              ->distinct()
+                              ->get()
+                              ->pluck('valid_for')
+                              ->map(function ($date) {
+                                  return $date;
+                              })
+                              ->toArray();
+    }
+
+    private function searchTickets(Request $request)
+    {
+        $ticketsByMeal = [];
+
+        if ($request->has('valid_for')) {
+            $date = $request->input('valid_for');
+
+            $tickets = Ticket::with(['meal', 'user'])
+                ->whereDate('valid_for', $date)
+                ->get()
+                ->groupBy('meal.name');
+
+            $ticketsByMeal = $tickets;
+        }
+
+        return $ticketsByMeal;
+    }
+
+    private function generateTickets(Request $request)
+    {
+        $request->validate(['valid_for' => 'required|date']);
+
+        $diners = User::whereHas('role', function ($query) {
+            $query->where('name', 'Comensal');
+        })->get();
+
+        if (Ticket::where('valid_for', $request->valid_for)->exists()) {
+            session()->flash('error', 'Los tickets para esta fecha ya existen.');
+            $existingTickets = Ticket::with(['meal', 'user'])
+                ->whereDate('valid_for', $request->valid_for)
+                ->get()
+                ->groupBy('meal.name');
+
+            return $existingTickets;
+        }
+
+        $meals = Meal::all();
+
+        foreach ($diners as $diner) {
+            foreach ($meals as $meal) {
+                $ticket = Ticket::create([
+                    'code'      => Ticket::generateCode(),
+                    'valid_for' => $request->valid_for,
+                    'meal_id'   => $meal->id
+                ]);
+            }
+        }
+
+        session()->flash('success', 'Tickets generados exitosamente.');
+        $tickets = Ticket::with(['meal', 'user'])
+            ->whereDate('valid_for', $request->valid_for)
+            ->get()
+            ->groupBy('meal.name');
+
+        return $tickets;
+    }
+
+    public function indexe(Request $request)
+    {
         $ticketsByMeal = [];
 
         if ($request->has('valid_for')) {
@@ -239,39 +329,5 @@ class TicketController extends Controller
         });
 
         return view('user.monthly_report', compact('detailedTickets', 'summary', 'month'));
-    }
-
-    public function create()
-    {
-        return view('tickets.create');
-    }
-
-    public function generate(Request $request)
-    {
-        $request->validate(['valid_for' => 'required|date']);
-
-        $diners = User::whereHas('role', function ($query) {
-            $query->where('name', 'Comensal');
-        })->get();
-
-        if (Ticket::where('valid_for', $request->valid_for)->exists()) {
-            return redirect()->route('dashboard')
-                             ->with('error', 'Los tickets para esta fecha ya existen.');
-        }
-
-        $meals = Meal::all();
-
-        foreach ($diners as $diner) {
-            foreach ($meals as $meal) {
-                Ticket::create([
-                    'code'      => Ticket::generateCode(),
-                    'valid_for' => $request->valid_for,
-                    'meal_id'   => $meal->id,
-                ]);
-            }
-        }
-
-        return redirect()->route('dashboard')
-                         ->with('success', 'Tickets generados exitosamente');
     }
 }
