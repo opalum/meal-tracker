@@ -15,15 +15,23 @@
         </div>
     @endif
 
+    @if(Auth::user()->hasRole('Admin'))
     <div class="row">
-        @if(Auth::user()->hasRole('Admin'))
         <!-- Created Tickets Card -->
         <div class="col-md-4">
             <div class="card bg-secondary mb-3">
-                <div class="card-header">Tickets Creados</div>
-                <div class="card-body text-center">
-                    <p class="card-title card-summary"><i class="fas fa-ticket-alt"></i> {{ $totalCreatedTickets }}</p>
-                    <p class="card-text">Total de tickets creados hoy.</p>
+                <div class="card-header">TICKETS CREADOS</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col text-center card-today">
+                            <p class="card-title card-summary"><i class="fas fa-ticket-alt"></i> {{ $totalCreatedTicketsToday }}</p>
+                            <p class="card-text">HOY</p>
+                        </div>
+                        <div class="col text-center">
+                            <p class="card-title card-summary"><i class="fas fa-ticket-alt"></i> {{ $totalCreatedTicketsTomorrow }}</p>
+                            <p class="card-text">MAÑANA</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -31,10 +39,18 @@
         <!-- Assigned Tickets Card -->
         <div class="col-md-4">
             <div class="card bg-secondary mb-3">
-                <div class="card-header">Tickets Asignados</div>
-                <div class="card-body text-center">
-                    <p class="card-title card-summary"><i class="fas fa-user-check"></i> {{ $totalAssignedTickets }}</p>
-                    <p class="card-text">Total de tickets asignados para hoy</p>
+                <div class="card-header">TICKETS ASIGNADOS</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col text-center card-today">
+                            <p class="card-title card-summary"><i class="fas fa-user-check"></i> {{ $totalAssignedTicketsToday }}</p>
+                            <p class="card-text">HOY</p>
+                        </div>
+                        <div class="col text-center">
+                            <p class="card-title card-summary"><i class="fas fa-user-check"></i> {{ $totalAssignedTicketsTomorrow }}</p>
+                            <p class="card-text">MAÑANA</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -42,15 +58,15 @@
         <!-- Redeemed Tickets Card -->
         <div class="col-md-4">
             <div class="card bg-secondary mb-3">
-                <div class="card-header">Tickets Usados</div>
-                <div class="card-body text-center">
-                    <p class="card-title card-summary"><i class="fas fa-check-circle"></i> {{ $totalRedeemedTickets }}</p>
-                    <p class="card-text">Total de tickets usados hoy.</p>
+                <div class="card-header">TICKETS USADOS</div>
+                <div class="card-body text-center card-today">
+                    <p class="card-title card-summary"><i class="fas fa-check-circle"></i> {{ $totalRedeemedTicketsToday }}</p>
+                    <p class="card-text">TOTAL DE TICKETS USADOS HOY.</p>
                 </div>
             </div>
         </div>
-        @endif
     </div>
+    @endif
 
     <div class="row">
         @if(Auth::user()->hasRole('Admin'))

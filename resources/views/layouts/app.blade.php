@@ -25,6 +25,10 @@
         .card-summary {
             font-size: 4em;
         }
+
+        .card-today {
+            color: #4ABF73;
+        }
     </style>
 </head>
 <body>
