@@ -24,6 +24,11 @@
                     </div>
 
                     <div class="mb-3">
+                        <strong>Grupo:</strong>
+                        {{ $user->group->name ?? 'Ninguno' }}
+                    </div>
+
+                    <div class="mb-3">
                         <strong>Email:</strong>
                         {{ $user->email }}
                     </div>

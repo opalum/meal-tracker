@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Group;
 use App\Models\Role;
+use App\Models\User;
 
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(10);
+        $users = User::orderBy('name', 'asc')->paginate(10);
         return view('users.index', compact('users'));
     }
 
@@ -24,7 +25,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('users.create', compact('roles'));
+        $groups = Group::all();
+        return view('users.create', compact('roles', 'groups'));
     }
 
     /**
@@ -61,8 +63,9 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $roles = Role::all();
+        $groups = Group::all();
         $user  = User::find($id);
-        return view('users.edit', compact('roles', 'user'));
+        return view('users.edit', compact('roles', 'groups', 'user'));
     }
 
     /**
@@ -84,7 +87,7 @@ class UserController extends Controller
 
         $request->validate($rules);
 
-        $data = $request->only(['identity', 'name', 'email', 'phone', 'rank', 'role_id']);
+        $data = $request->only(['identity', 'name', 'email', 'phone', 'rank', 'role_id', 'group_id']);
 
         if ($request->filled('password')) {
             $data['password'] = bcrypt($request->password);

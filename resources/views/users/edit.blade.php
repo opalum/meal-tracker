@@ -36,6 +36,16 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="group_id" class="form-label">Grupo</label>
+                            <select class="form-control" id="group_id" name="group_id">
+                                <option value="">Ninguno</option>
+                                @foreach ($groups as $group)
+                                    <option value="{{ $group->id }}" @if(isset($user) && $user->group_id == $group->id) selected @endif>{{ $group->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}" required>
                         </div>

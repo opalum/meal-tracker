@@ -20,6 +20,7 @@
                     <tr>
                         <th>Cédula</th>
                         <th>Grado</th>
+                        <th>Grupo</th>
                         <th>Nombres</th>
                         <th>Email</th>
                         <th>Rol</th>
@@ -31,6 +32,7 @@
                         <tr>
                             <td>{{ $user->identity }}</td>
                             <td>{{ $user->rank }}</td>
+                            <td>{{ $user->group->name ?? 'Ninguno' }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->role->name }}</td>

@@ -24,6 +24,7 @@ class User extends Authenticatable
         'rank',
         'password',
         'role_id',
+        'group_id',
     ];
 
     /**
@@ -45,6 +46,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Get the group of the user.
+     */
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
 
     /**
      * Get the role that owns the user.
