@@ -340,4 +340,74 @@ class TicketController extends Controller
 
         return view('user.monthly_report', compact('detailedTickets', 'summary', 'month', 'mealsSummary'));
     }
+
+    public function report(Request $request)
+    {
+        $date = $request->input('date'); // Assuming the input is in 'Y-m-d' format
+
+        if (!$date) {
+            return view('reports.ticket_report', ['users' => [], 'date' => null]);
+        }
+
+        $users = User::whereHas('role', function ($query) {
+            $query->where('name', 'Comensal');
+        })->with(['group', 'tickets' => function ($query) use ($date) {
+            if ($date) {
+                $query->where('valid_for', $date);
+            }
+        }])->orderBy('name', 'asc')
+           ->get()->map(function ($user) use ($date) {
+            $assignedTickets = $user->tickets->filter(function ($ticket) use ($date) {
+                return $ticket->valid_for == $date;
+            });
+            $usedTickets = $assignedTickets->where('redeemed', true);
+            return [
+                'name' => $user->name,
+                'group_name' => $user->group->name ?? 'No Group',
+                'assigned_tickets' => $assignedTickets->count(),
+                'used_tickets' => $usedTickets->count(),
+            ];
+        });
+
+        return view('reports.ticket_report', compact('users', 'date'));
+    }
+
+    public function exportCsv(Request $request)
+    {
+        $date = $request->query('date');
+
+        $users = $this->report($request)->getData()['users'];
+
+        $headers = [
+            "Content-type" => "text/csv; charset=UTF-8",
+            "Content-Disposition" => "attachment; filename=ticket_summary_{$date}.csv",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        ];
+
+        $columns = ['Nombres', 'Grupo', 'Tickets Asignados', 'Tickets Usados'];
+
+        $callback = function() use ($users, $columns) {
+            $file = fopen('php://output', 'w');
+
+            // Add UTF-8 BOM to fix UTF-8 in Excel
+            fputs($file, $bom = (chr(0xEF) . chr(0xBB) . chr(0xBF)));
+
+            fputcsv($file, $columns);
+
+            foreach ($users as $user) {
+                fputcsv($file, [
+                    $user['name'],
+                    $user['group_name'],
+                    $user['assigned_tickets'],
+                    $user['used_tickets'],
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }

@@ -22,6 +22,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('users', UserController::class);
 
+
+    Route::get('/tickets/summary', [TicketController::class, 'report'])->name('tickets.summary');
+    Route::get('/tickets/export', [TicketController::class, 'exportCsv'])->name('tickets.export');
+
     Route::get('tickets', [TicketController::class, 'index'])->name('tickets.index');
 
     Route::get('/user/tickets', [TicketController::class, 'showAssignedTickets'])->name('user.tickets');

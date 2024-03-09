@@ -63,6 +63,15 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+
+    /**
+     * Get the tickets for the user.
+     */
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
     /**
      * Check if the user has a specific role.
      *

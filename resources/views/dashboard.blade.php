@@ -68,8 +68,8 @@
     </div>
     @endif
 
+    @if(Auth::user()->hasRole('Admin'))
     <div class="row">
-        @if(Auth::user()->hasRole('Admin'))
         <div class="col-md-4">
             <div class="card text-white bg-dark mb-3">
                 <div class="card-body">
@@ -97,10 +97,22 @@
                 </div>
             </div>
         </div>
-        @endif
     </div>
     <div class="row">
-        @if(Auth::user()->hasRole('Comensal'))
+        <div class="col-md-4">
+            <div class="card text-white bg-info mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Reporte Administrativo</h5>
+                    <p class="card-text">Generar reporte administrativo.</p>
+                    <a href="{{ route('tickets.summary', ['date' => Carbon\Carbon::now()->format('Y-m-d')]) }}" class="btn btn-outline-light">Ir a reporte administrativo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    @if(Auth::user()->hasRole('Comensal'))
+    <div class="row">
         <div class="col-md-4">
             <div class="card text-white bg-info mb-3">
                 <div class="card-body">
@@ -128,9 +140,8 @@
                 </div>
             </div>
         </div>
-
-        @endif
     </div>
+    @endif
     <div class="row">
         @if(Auth::user()->hasRole('Admin'))
         <div class="col-md-4">
@@ -159,4 +170,3 @@
     </div>
 </div>
 @endsection
-
