@@ -29,7 +29,7 @@ class DashboardController extends Controller
             ->count();
 
         // Total created tickets tomorrow
-        $totalCreatedTicketsTomorrow = Ticket::whereDate('valid_for', $today)->count();
+        $totalCreatedTicketsTomorrow = Ticket::whereDate('valid_for', $tomorrow)->count();
 
         // Total assigned tickets tomorrow
         $totalAssignedTicketsTomorrow = Ticket::whereNotNull('user_id')
